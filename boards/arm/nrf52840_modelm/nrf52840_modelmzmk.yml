@@ -1,0 +1,11 @@
+file_format: "1"
+id: ibm_modelm
+name: ibm_modelm
+type: board
+url: https://github.com/stroma123
+arch: arm
+features:
+  - keys
+outputs:
+  - usb
+  - ble
