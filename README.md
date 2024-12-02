@@ -7,7 +7,7 @@ It allows to use the keyboard via USB connector, or via Bluetooth.
 
 ## Tools
 
-You need a SWD programmer (STLink) with 4pin for the initial flash programming of the board.
+You need a SWD programmer (STLink) with 4 pins for the initial flash programming of the board.
 
 ## Setup
 
@@ -62,7 +62,7 @@ This is **not** Docker Desktop/VS Code approach described in ZMK [Getting Starte
 
 For convenience, while developing/testing, you may leave the container running.
 
-* Create the container and just run `bash`, note the `--detach` ooption.
+* Create the container and just run `bash`, note the `--detach` option.
 
         docker run --detach --interactive --tty --name zmk-modelm --workdir /zmk \
             --volume "./config:/zmk-config" \
@@ -70,7 +70,7 @@ For convenience, while developing/testing, you may leave the container running.
             --volume ".:/boards" \
             zmkfirmware/zmk-dev-arm:3.5 /bin/bash
 
-* Now the container is detached but is still running, build the firmware with `docker exec` comand.
+* Now the container is detached but is still running, build the firmware with `docker exec` command.
 
         docker exec --interactive --tty zmk-modelm \
             west build /zmk/app --pristine --board "nrf52840_modelm" \
