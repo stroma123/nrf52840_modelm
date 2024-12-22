@@ -44,6 +44,8 @@ This is **not** Docker Desktop/VS Code approach described in ZMK [Getting Starte
             zmkfirmware/zmk-dev-arm:3.5 \
             sh -c 'west init -l /zmk/app/; west update'
 
+  Note, if you encounter an error such as: `docker: Error response from daemon: create ./config: "./config" includes invalid characters for a local volume name, only "[a-zA-Z0-9][a-zA-Z0-9_.-]" are allowed. If you intended to   pass a host directory, use absolute path.` you may need to update `docker` on your system.
+
 * Build the firmware:
 
         docker run --interactive --tty --name zmk-modelm --workdir /zmk \
