@@ -39,8 +39,8 @@ RC(5,0)   RC(7,15)                        RC(0,6)                               
 
     kscan0: kscan {
         compatible = "zmk,kscan-gpio-matrix";
-
         diode-direction = "row2col";
+        wakeup-source;
         row-gpios
             = <&gpio1 11 (GPIO_ACTIVE_HIGH)> // R0
             , <&gpio0 16 (GPIO_ACTIVE_HIGH)> // R1
@@ -76,6 +76,26 @@ RC(5,0)   RC(7,15)                        RC(0,6)                               
         io-channels = <&adc 2>;
         output-ohms = <2000000>;
         full-ohms = <(2000000 + 806000)>;
+    };
+
+    aliases {
+		led-caps = &led_0;
+		led-num = &led_1;
+		led-scroll = &led_2;
+    };
+
+    leds {
+        compatible = "gpio-leds";
+        status = "okay";
+        led_0: led_0 {
+            gpios = <&gpio0 14 GPIO_ACTIVE_LOW>;
+        };
+        led_1: led_1 {
+            gpios = <&gpio0 26 GPIO_ACTIVE_LOW>;
+        };
+        led_2: led_2 {
+            gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;
+        };
     };
 };
 
