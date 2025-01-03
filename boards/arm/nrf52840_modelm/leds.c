@@ -51,7 +51,7 @@ static int led_capslock_listener_cb(const zmk_event_t *eh) {
 ZMK_LISTENER(led_indicators_listener, led_capslock_listener_cb);
 ZMK_SUBSCRIPTION(led_indicators_listener, zmk_hid_indicators_changed);
 
-static int leds_init(const struct device *device) {
+static int leds_init(void) {
     if (!device_is_ready(led_dev)) {
         LOG_ERR("Device %s is not ready", led_dev->name);
         return -ENODEV;
