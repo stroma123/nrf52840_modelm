@@ -7,10 +7,11 @@
 #include <nordic/nrf52840_qiaa.dtsi>
 
 #include <dt-bindings/zmk/matrix_transform.h>
-
+// Needed if and only if keys property is used
+#include <physical_layouts.dtsi>
 / {
     model = "IBM MODEL M";
-    compatible = "ibm,60";
+    compatible = "ibm,101";
 
     chosen {
         zephyr,code-partition = &code_partition;
@@ -19,7 +20,19 @@
         zephyr,console = &cdc_acm_uart;
         zmk,battery = &vbatt;
         zmk,kscan = &kscan0;
-        zmk,matrix_transform = &default_transform;
+        zmk,physical-layout = &modelm_physical_layout;
+    };
+
+    modelm_physical_layout: modelm_physical_layout {
+        compatible = "zmk,physical-layout";
+        display-name = "Model M Layout";
+        // dummy keys, actual key will be added later
+        keys  //                     w   h    x    y     rot    rx    ry
+            = <&key_physical_attrs 100 100    0    0       0     0     0>
+            , <&key_physical_attrs 100 100  100    0       0     0     0>
+            , <&key_physical_attrs 100 100    0  100       0     0     0>
+            , <&key_physical_attrs 100 100  100  100       0     0     0>
+            ;        
     };
 
     default_transform: keymap_transform_0 {
@@ -120,6 +133,10 @@ RC(5,0)   RC(7,15)                        RC(0,6)                               
     cdc_acm_uart: cdc_acm_uart {
         compatible = "zephyr,cdc-acm-uart";
     };
+};
+
+&modelm_physical_layout {
+    transform = <&default_transform>;
 };
 
 &flash0 {
