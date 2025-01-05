@@ -44,7 +44,7 @@ CONFIG_LED=y
 CONFIG_ZMK_HID_INDICATORS=y
 
 # ZMK Studio support
-# CONFIG_ZMK_STUDIO=y
+CONFIG_ZMK_STUDIO=y
 CONFIG_ZMK_STUDIO_LOCKING=n
 
 # uncomment to enable USB logging / debugging
