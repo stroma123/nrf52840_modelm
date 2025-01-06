@@ -131,7 +131,7 @@ RC(5,0)   RC(7,15)                        RC(0,6)                               
     status = "okay";
 };
 
-&usbd {
+zephyr_udc0: &usbd {
     status = "okay";
     cdc_acm_uart: cdc_acm_uart {
         compatible = "zephyr,cdc-acm-uart";
