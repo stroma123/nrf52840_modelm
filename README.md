@@ -41,6 +41,7 @@ This is **not** Docker Desktop/VS Code approach described in ZMK [Getting Starte
             --volume "./config:/zmk-config" \
             --volume "./zmk:/zmk" \
             --volume ".:/boards" \
+            --user="$(id -u):$(id -g)" \
             zmkfirmware/zmk-dev-arm:3.5 \
             sh -c 'west init -l /zmk/app/; west update'
 
@@ -52,6 +53,7 @@ This is **not** Docker Desktop/VS Code approach described in ZMK [Getting Starte
             --volume "./config:/zmk-config" \
             --volume "./zmk:/zmk" \
             --volume ".:/boards" \
+            --user="$(id -u):$(id -g)" \
             zmkfirmware/zmk-dev-arm:3.5 \
             west build /zmk/app --pristine --board "nrf52840_modelm" \
             -- -DZMK_CONFIG="/zmk-config" \
@@ -70,6 +72,7 @@ For convenience, while developing/testing, you may leave the container running.
             --volume "./config:/zmk-config" \
             --volume "./zmk:/zmk" \
             --volume ".:/boards" \
+            --user="$(id -u):$(id -g)" \
             zmkfirmware/zmk-dev-arm:3.5 /bin/bash
 
 * Now the container is detached but is still running, build the firmware with `docker exec` command.
