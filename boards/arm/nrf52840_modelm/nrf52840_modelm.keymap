@@ -8,7 +8,16 @@
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/outputs.h>
 
-#define BTSEL(x)   &bt BT_SEL x
+#define BT0 BT_SEL 0
+#define BT1 BT_SEL 1
+#define BT2 BT_SEL 2
+#define BT3 BT_SEL 3
+#define BT4 BT_SEL 4
+
+#define O_BLE OUT_BLE
+#define O_USB OUT_USB
+#define O_TOG OUT_TOG
+
 
 / {
     keymap {
@@ -46,21 +55,21 @@
             bindings = <
 //╭──────────╮          ╭──────────┬──────────┬──────────┬──────────╮    ╭──────────┬──────────┬──────────┬──────────╮    ╭──────────┬──────────┬──────────┬──────────╮    ╭──────────┬──────────┬──────────╮
 //│ ESC      │          │ F1       │ F2       │ F3       │ F4       |    │ F5       │ F6       │ F7       │ F8       |    │ F9       │ F10      │ F11      │ F12      │    │ Pr.Screen│ Scr.Lock │ Pause    |
-    &bootloader           BTSEL(0)   BTSEL(1)  BTSEL(2)    BTSEL(3)        &trans     &trans     &trans     &trans          &trans     &trans     &trans     &trans          &trans     &trans     &trans
+    &bootloader           &bt BT0    &bt BT1    &bt BT2    &bt BT3         &trans     &trans     &trans     &trans          &trans     &trans     &trans     &trans          &trans     &trans     &trans
 //╰──────────╯          ╰──────────┴──────────┴──────────┴──────────╯    ╰──────────┴──────────┴──────────┴──────────╯    ╰──────────┴──────────┴──────────┴──────────╯    ╰──────────┴──────────┴──────────╯
 //
 //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬────────────────────╮    ╭──────────┬──────────┬──────────╮    ╭──────────┬──────────┬──────────┬──────────╮
 //│ `        │ 1        │ 2        │ 3        │ 4        │ 5        │ 6        │ 7        │ 8        │ 9        │ 10       │ -        │ =        │ Backspace          │    │ Insert   │ Home     │ Page Up  │    │ Num Lock │ /        │ *        │ -        │
-    &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &bt BT_CLR_ALL            &trans     &trans     &trans          &trans     &trans     &trans     &trans
+    &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &bt BT_CLR_ALL            &trans     &trans     &bt BT_NXT      &trans     &trans     &trans     &trans
 //├──────────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬──────────────┤    ├──────────┼──────────┼──────────┤    ├──────────┼──────────┼──────────┼──────────┤
 //| Tab            | Q        | W        | E        | R        | T        | Y        | U        | I        | O        | P        | [        | ]        | \            |    | Delete   | End      | Page Down|    | 7        | 8        | 9        | +        |
-    &trans           &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &bt BT_CLR          &trans     &trans     &trans          &trans     &trans     &trans     &trans
+    &trans           &trans     &trans     &trans     &trans     &out O_TOG &trans     &out O_USB &trans     &trans     &trans     &trans     &trans     &bt BT_CLR          &trans     &trans     &bt BT_PRV      &trans     &trans     &trans     &trans
 //├─────────────┬──┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴──────────────┤    ╰──────────┴──────────┴──────────╯    ├──────────┼──────────┼──────────┤          |
 //| Caps Lock   |      | A        | S        | D        | F        | G        | H        | J        | K        | L        | ;        | '        | Enter               |                                          | 4        | 5        | 6        |          |
     &trans               &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans                                                           &trans     &trans     &trans   
 //├─────────────┴──────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────────────────────┤               ╭──────────╮               ├──────────┼──────────┼──────────┼──────────┤
 //| Shift                    | Z        | X        | C        | V        | B        | N        | M        | ,        | .        | /        | Shift                    |               | Up       |               | 1        | 2        | 3        | Enter    |
-    &trans                     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans                                     &sys_reset                 &trans     &trans     &trans     &trans
+    &trans                     &trans     &trans     &trans     &trans     &out O_BLE &trans     &trans     &trans     &trans     &trans     &trans                                     &sys_reset                 &trans     &trans     &trans     &trans
 //├──────────────┬───────────┴──┬──────────────┬───┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴───┬──────┴───────┬──┴───────────┬──────────────┤    ╭──────────┼──────────┼──────────╮    ├─────────────────────┼──────────┤          |
 //| Ctrl         |              | Alt          | Space                                                                   | Alt          |              | Ctrl         |    | Left     | Down     | Right    |    | 0                   | .        |          |
     &trans                        &trans         &trans                                                                    &trans                        &trans              &trans     &trans     &trans          &trans                &trans
