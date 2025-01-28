@@ -18,20 +18,14 @@
 
 #include <math.h>
 
-#define indicator_led led_scroll
-
-#define CONFIG_LED_INDICATOR_BLINK_MS 50
-#define CONFIG_LED_INDICATOR_INTERVAL_MS 500
-#define CONFIG_LED_INDICATOR_BATTERY_LEVEL_CRITICAL 10
-
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
 #define LED_GPIO_NODE_ID DT_COMPAT_GET_ANY_STATUS_OKAY(gpio_leds)
 
-BUILD_ASSERT(DT_NODE_EXISTS(DT_ALIAS(indicator_led)), "An alias for the indicator LED is not found for LED_INDICATOR");
+BUILD_ASSERT(DT_NODE_EXISTS(DT_ALIAS(led_indicator)), "An alias for the indicator LED is not found for LED_INDICATOR");
 
 static const struct device *led_dev = DEVICE_DT_GET(LED_GPIO_NODE_ID);
-static const uint8_t led_idx = DT_NODE_CHILD_IDX(DT_ALIAS(indicator_led));
+static const uint8_t led_idx = DT_NODE_CHILD_IDX(DT_ALIAS(led_indicator));
 
 static bool initialized = false;
 

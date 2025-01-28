@@ -85,7 +85,9 @@ RC(5,0)   RC(7,15)                        RC(0,6)                               
     aliases {
 		led-caps = &led_0;
 		led-num = &led_1;
-		led-scroll = &led_2;
+        /* Use led_2 as BLE/Battery blink indicator instead */
+		//led-scroll = &led_2;
+        led-indicator = &led_2;
     };
 
     leds {
@@ -131,6 +133,11 @@ zephyr_udc0: &usbd {
 
 &ansi101_physical_layout {
     transform = <&matrix_transform0>;
+};
+
+/* CONFIG_GPIO_AS_PINRESET is deprecated use this instead */
+&uicr {
+    gpio-as-nreset;
 };
 
 &flash0 {
