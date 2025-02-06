@@ -44,14 +44,14 @@ RC(5,0)   RC(7,15)                        RC(0,6)                               
         diode-direction = "row2col";
         wakeup-source;
         row-gpios
-            = <&gpio1 11 (GPIO_ACTIVE_HIGH)> // R0
-            , <&gpio0 16 (GPIO_ACTIVE_HIGH)> // R1
-            , <&gpio0 8  (GPIO_ACTIVE_HIGH)> // R2
-            , <&gpio0 6  (GPIO_ACTIVE_HIGH)> // R3
-            , <&gpio1 9  (GPIO_ACTIVE_HIGH)> // R4
-            , <&gpio0 12 (GPIO_ACTIVE_HIGH)> // R5
-            , <&gpio0 19 (GPIO_ACTIVE_HIGH)> // R6
-            , <&gpio0 21 (GPIO_ACTIVE_HIGH)> // R7
+            = <&gpio1 11 (GPIO_OPEN_SOURCE)> // R0
+            , <&gpio0 16 (GPIO_OPEN_SOURCE)> // R1
+            , <&gpio0 8  (GPIO_OPEN_SOURCE)> // R2
+            , <&gpio0 6  (GPIO_OPEN_SOURCE)> // R3
+            , <&gpio1 9  (GPIO_OPEN_SOURCE)> // R4
+            , <&gpio0 12 (GPIO_OPEN_SOURCE)> // R5
+            , <&gpio0 19 (GPIO_OPEN_SOURCE)> // R6
+            , <&gpio0 21 (GPIO_OPEN_SOURCE)> // R7
             ;
         col-gpios
             = <&gpio1 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // C0
