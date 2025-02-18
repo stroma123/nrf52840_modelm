@@ -18,6 +18,8 @@
 #define O_USB OUT_USB
 #define O_TOG OUT_TOG
 
+#define VOL_DN C_VOL_DN
+#define VOL_UP C_VOL_UP
 
 / {
     keymap {
@@ -45,7 +47,7 @@
     &kp LSHFT                  &kp Z      &kp X      &kp C      &kp V      &kp B      &kp N      &kp M      &kp COMMA  &kp DOT    &kp FSLH   &kp RSHFT                                  &kp UP                     &kp KP_N1  &kp KP_N2  &kp KP_N3  &kp KP_ENTER
 //├──────────────┬───────────┴──┬──────────────┬───┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴───┬──────┴───────┬──┴───────────┬──────────────┤    ╭──────────┼──────────┼──────────╮    ├─────────────────────┼──────────┤          |
 //| Ctrl         |              | Alt          | Space                                                                   | Alt          |              | Ctrl         |    | Left     | Down     | Right    |    | 0                   | .        |          |
-    &kp LCTRL                     &kp LALT       &kp SPACE                                                                 &kp RALT                      &kp RCTRL           &kp LEFT   &kp DOWN   &kp RIGHT       &kp KP_N0             &kp KP_DOT
+    &kp LCTRL                     &kp LALT       &kp SPACE                                                                 &kp RGUI                      &kp RCTRL           &kp LEFT   &kp DOWN   &kp RIGHT       &kp KP_N0             &kp KP_DOT
 //╰──────────────╯              ╰──────────────┴─────────────────────────────────────────────────────────────────────────┴──────────────╯              ╰──────────────╯    ╰──────────┴──────────┴──────────╯    ╰─────────────────────┴──────────┴──────────╯
             >;
         };
@@ -60,19 +62,19 @@
 //
 //╭──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬────────────────────╮    ╭──────────┬──────────┬──────────╮    ╭──────────┬──────────┬──────────┬──────────╮
 //│ `        │ 1        │ 2        │ 3        │ 4        │ 5        │ 6        │ 7        │ 8        │ 9        │ 10       │ -        │ =        │ Backspace          │    │ Insert   │ Home     │ Page Up  │    │ Num Lock │ /        │ *        │ -        │
-    &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &bt BT_CLR_ALL            &trans     &trans     &bt BT_NXT      &trans     &trans     &trans     &trans
+    &sys_reset &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &bt BT_CLR_ALL            &kp VOL_DN &kp C_MUTE &kp VOL_UP      &trans     &trans     &trans     &trans
 //├──────────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬──────────────┤    ├──────────┼──────────┼──────────┤    ├──────────┼──────────┼──────────┼──────────┤
 //| Tab            | Q        | W        | E        | R        | T        | Y        | U        | I        | O        | P        | [        | ]        | \            |    | Delete   | End      | Page Down|    | 7        | 8        | 9        | +        |
-    &trans           &trans     &trans     &trans     &trans     &out O_TOG &trans     &out O_USB &trans     &trans     &trans     &trans     &trans     &bt BT_CLR          &trans     &trans     &bt BT_PRV      &trans     &trans     &trans     &trans
+    &trans           &trans     &trans     &trans     &trans     &out O_TOG &trans     &out O_USB &trans     &trans     &trans     &trans     &trans     &trans              &kp C_PREV &kp C_PP   &kp C_NEXT      &trans     &trans     &bt BT_NXT &trans
 //├─────────────┬──┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴───┬──────┴──────────────┤    ╰──────────┴──────────┴──────────╯    ├──────────┼──────────┼──────────┤          |
 //| Caps Lock   |      | A        | S        | D        | F        | G        | H        | J        | K        | L        | ;        | '        | Enter               |                                          | 4        | 5        | 6        |          |
-    &trans               &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans                                                           &trans     &trans     &trans   
+    &trans               &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans     &trans                                                           &trans     &trans     &trans
 //├─────────────┴──────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────┬────┴─────────────────────┤               ╭──────────╮               ├──────────┼──────────┼──────────┼──────────┤
 //| Shift                    | Z        | X        | C        | V        | B        | N        | M        | ,        | .        | /        | Shift                    |               | Up       |               | 1        | 2        | 3        | Enter    |
-    &trans                     &trans     &trans     &trans     &trans     &out O_BLE &trans     &trans     &trans     &trans     &trans     &trans                                     &sys_reset                 &trans     &trans     &trans     &trans
+    &trans                     &trans     &trans     &trans     &trans     &out O_BLE &trans     &trans     &trans     &trans     &trans     &trans                                     &trans                     &trans     &trans     &bt BT_PRV &trans
 //├──────────────┬───────────┴──┬──────────────┬───┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴───┬──────┴───────┬──┴───────────┬──────────────┤    ╭──────────┼──────────┼──────────╮    ├─────────────────────┼──────────┤          |
 //| Ctrl         |              | Alt          | Space                                                                   | Alt          |              | Ctrl         |    | Left     | Down     | Right    |    | 0                   | .        |          |
-    &trans                        &trans         &trans                                                                    &trans                        &trans              &trans     &trans     &trans          &trans                &trans
+    &trans                        &trans         &trans                                                                    &trans                        &trans              &trans     &trans     &trans          &trans                &bt BT_CLR
 //╰──────────────╯              ╰──────────────┴─────────────────────────────────────────────────────────────────────────┴──────────────╯              ╰──────────────╯    ╰──────────┴──────────┴──────────╯    ╰─────────────────────┴──────────┴──────────╯
             >;
         };
