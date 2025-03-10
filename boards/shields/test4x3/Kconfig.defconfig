@@ -1,0 +1,7 @@
+if SHIELD_TEST4X3
+
+config ZMK_KEYBOARD_NAME
+    default "Test 4x3"
+
+endif
+
