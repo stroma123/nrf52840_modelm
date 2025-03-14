@@ -28,7 +28,7 @@
             flavor = "hold-preferred";
             tapping-term-ms = <200>;
             quick-tap-ms = <200>;
-            require-prior-idle_ms = <125>
+            require-prior-idle-ms = <125>;
             bindings = <&to>, <&kp>;
             display-name = "Layer-change";
         };
