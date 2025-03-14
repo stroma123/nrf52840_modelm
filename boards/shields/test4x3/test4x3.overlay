@@ -83,3 +83,68 @@ zephyr_udc0: &usbd {
         compatible = "zephyr,cdc-acm-uart";
     };
 };
+
+/ {
+    chosen {
+        zephyr,display = &oled;
+    };
+};
+
+&pinctrl {
+    /* configuration for i2c0 device, default state */
+    i2c0_default: i2c0_default {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 17)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 20)>;
+        };
+    };
+
+    i2c0_sleep: i2c0_sleep {
+        group1 {
+            psels = <NRF_PSEL(TWIM_SDA, 0, 17)>,
+                    <NRF_PSEL(TWIM_SCL, 0, 20)>;
+            low-power-enable;
+        };
+    };
+};
+
+&i2c0 {
+    compatible = "nordic,nrf-twi";
+    pinctrl-0 = <&i2c0_default>;
+    pinctrl-1 = <&i2c0_sleep>;
+    pinctrl-names = "default", "sleep";
+    clock-frequency = <I2C_BITRATE_FAST>;    
+    status = "okay";
+
+    oled: ssd1306@3c {
+        compatible = "solomon,ssd1306fb";
+        reg = <0x3c>;
+        width = <128>;
+        height = <64>;
+        segment-offset = <0>;
+        page-offset = <0>;
+        display-offset = <0>;
+        multiplex-ratio = <63>;
+        //segment-remap;  // Last column address is mapped to first segment - mirror x
+        //com-invdir;     // Scan direction is from last COM output to first COM output - mirror y
+        //com-sequential; // Sequential COM pin configuration - rotate 180 degree
+        prechargep = <0x22>;
+        inversion-on;     // Turn on display color inverting
+    };
+};
+
+/*
+// https://github.com/alinelena/mlego-zmk/blob/main/config/boards/shields/mlego5x13_rev9/mlego5x13_rev9.overlay
+&spi1 {
+    sr_piso: 165@0 {
+        compatible = "zmk,gpio-165";
+        status = "okay";
+        gpio-controller;
+        spi-max-frequency = <200000>;
+        #gpio-cells = <2>;
+        load-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
+        reg = <1>;
+        ngpios = <8>;
+    }; 
+};
+*/
