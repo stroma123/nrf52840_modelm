@@ -9,6 +9,9 @@ config I2C
     default y
 
 config SSD1306
+    default n
+
+config ST7735R
     default y
 
 endif # ZMK_DISPLAY

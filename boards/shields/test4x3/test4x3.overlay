@@ -84,6 +84,7 @@ zephyr_udc0: &usbd {
     };
 };
 
+/*
 / {
     chosen {
         zephyr,display = &oled;
@@ -91,7 +92,7 @@ zephyr_udc0: &usbd {
 };
 
 &pinctrl {
-    /* configuration for i2c0 device, default state */
+    // configuration for i2c0 device, default state
     i2c0_default: i2c0_default {
         group1 {
             psels = <NRF_PSEL(TWIM_SDA, 0, 17)>,
@@ -132,6 +133,7 @@ zephyr_udc0: &usbd {
         inversion-on;     // Turn on display color inverting
     };
 };
+*/
 
 /*
 // https://github.com/alinelena/mlego-zmk/blob/main/config/boards/shields/mlego5x13_rev9/mlego5x13_rev9.overlay
@@ -147,4 +149,84 @@ zephyr_udc0: &usbd {
         ngpios = <8>;
     }; 
 };
+*/
+
+/ {
+    chosen {
+        zephyr,display = &st7735s160x80;
+    };
+};
+
+&pinctrl {
+    spi1_default: spi1_default {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 6)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 8)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 22)>;
+        };
+    };
+
+    spi1_sleep: spi1_sleep {
+        group1 {
+            psels = <NRF_PSEL(SPIM_SCK, 0, 6)>,
+                    <NRF_PSEL(SPIM_MOSI, 0, 8)>,
+                    <NRF_PSEL(SPIM_MISO, 0, 22)>;
+            low-power-enable;
+        };
+    };
+};
+
+&spi1 {
+    status = "okay";
+    compatible = "nordic,nrf-spim";
+    pinctrl-0 = <&spi1_default>;
+    pinctrl-1 = <&spi1_sleep>;
+    pinctrl-names = "default", "sleep";
+    cs-gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
+
+    st7735s160x80: st7735s@0 {
+        compatible = "sitronix,st7735r";
+        spi-max-frequency = <1000000>;
+        reg = <0>;
+        cmd-data-gpios = <&gpio0 11 GPIO_ACTIVE_LOW>;	
+        reset-gpios = <&gpio0 9  GPIO_ACTIVE_LOW>;
+        width = <80>;
+        height = <160>;
+        x-offset = <0>;
+        y-offset = <0>;
+        madctl = <0xC0>;
+        colmod = <0x05>;
+        caset = [00 00 00 4F];
+        raset = [00 00 00 9F];
+        vmctr1 = <0x0e>;
+        invctr = <0x07>;
+        pwctr1 = [a2 02 84];
+        pwctr2 = [c5];
+        pwctr3 = [0a 00];
+        pwctr4 = [8a 2a];
+        pwctr5 = [8a ee];
+        frmctr1 = [01 2c 2d];
+        frmctr2 = [01 2c 2d];
+        frmctr3 = [01 2c 2d 01 2c 2d];
+        gamctrp1 = [02 1c 07 12 37 32 29 2d 29 25 2b 39 00 01 03 10];
+        gamctrn1 = [03 1d 07 06 2e 2c 29 2d 2e 2e 37 3f 00 00 02 10];
+    };    
+};
+
+/*
+ st7735s module -> ProMicro nRF52840
+ GND            -> GND
+ VCC            -> 3V3 (power cut off if P0.13 is low)
+ SCK            -> P0.06, SPI clock
+ SDA            -> P0.08, SPI data
+ RES            -> P0.09, Active low
+ DC             -> P0.11, DC=1 - data, DC=0 - command
+ CS             -> P1.06, Active low
+ BLK            -> D2, Blacklight Control. High: Blacklight on Low: Blacklight off.
+
+ssd1306 module -> ProMicro nRF52840
+GND            -> GND
+VCC            -> 3V3 (power cut off if P0.13 is low)
+SDA            -> P0.17
+SCK            -> P0.20
 */
