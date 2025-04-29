@@ -1,0 +1,58 @@
+if SHIELD_MODEL_X
+
+config ZMK_KEYBOARD_NAME
+    default "Model X"
+
+config SPI
+    default y
+
+if USB_DEVICE_STACK
+
+config USB_NRFX
+    default y
+
+endif # USB_DEVICE_STACK
+
+config BT_CTLR
+    default BT
+
+config ZMK_BLE
+    default y
+
+config ZMK_USB
+    default y
+
+config ZMK_RTT_LOGGING
+    default n
+
+config LOG_BACKEND_SHOW_COLOR
+    default n
+
+config LED
+    default y
+
+config LED_LOCK_STATUS
+    bool "Enable LED lock indicators, such as Caps lock, Num Lock ..."
+    default n
+
+config LED_INDICATOR_STATUS
+    bool "Enable LED status indicator"
+    default n
+
+config LED_INDICATOR_BLINK_MS
+    int "Duration of BLE connection status blink in ms"
+    default 300
+
+config LED_INDICATOR_INTERVAL_MS
+    int "Minimum wait duration between two blinks in ms"
+    default 150
+
+config LED_INDICATOR_BATTERY_LEVEL_CRITICAL
+    int "Critical battery level percentage"
+    default 5
+
+config USE_DT_CODE_PARTITION
+    default y
+
+endif
+

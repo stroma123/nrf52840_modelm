@@ -21,3 +21,8 @@ include:
   - board: nrf52840_modelm
     snippet: studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y
+  - board: nice_nano_v2
+    shield: model_x
+    snippets:
+      - studio-rpc-usb-uart
+      - zmk-usb-logging

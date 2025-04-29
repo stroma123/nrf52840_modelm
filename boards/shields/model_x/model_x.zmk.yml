@@ -1,0 +1,13 @@
+file_format: "1"
+id: model_x
+name: model_x
+type: shield
+url: https://github.com/stroma123/nrf52840_modelm/
+requires: [nice_nano_v2]
+features:
+  - keys
+  - studio
+outputs:
+  - usb
+  - ble
+url: https
