@@ -105,8 +105,8 @@ RC(0,16)
         //compatible = "zmk,battery-nrf-vddh";
         compatible = "zmk,battery-voltage-divider";
         io-channels = <&adc 2>;
-        output-ohms = <2000000>;
-        full-ohms = <(2000000 + 806000)>;
+        output-ohms = <2150000>;
+        full-ohms = <(2150000 + 806000)>;
         power-gpios = <&gpio1 3 GPIO_ACTIVE_HIGH>;
     };
 
