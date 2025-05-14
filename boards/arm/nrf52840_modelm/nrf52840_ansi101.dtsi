@@ -117,6 +117,8 @@
             , <&key_physical_attrs 100 100  1800   600     0     0     0>
             , <&key_physical_attrs 200 100  2000   600     0     0     0>
             , <&key_physical_attrs 100 100  2200   600     0     0     0>
+
+            , <&key_physical_attrs 100 100  0      700     0     0     0>
         ;
     };
     
@@ -124,12 +126,12 @@
     ansi101_matrix_transform: ansi101_matrix_transform {
         compatible = "zmk,matrix-transform";
         rows = <8>;
-        columns = <16>;
+        columns = <17>;
         
         //  -------------------------------------------------------------------------------------------------------------------------
         //  | ESC   |       | F1    | F2    | F3    | F4    |   | F5    | F6    | F7    | F8    |   | F9    | F10   | F11   | F12   |       |PRT SCR| SLCK  |PAU_BRK|
         //  |  `    |  1    |  2    |  3    |  4    |  5    |  6    |  7    |  8    |  9    |  0    |  -    |  =    |   BKSP        |       |INSERT | HOME  |PAGE_UP|       |BL_NUM | KP /  | KP *  | KP -  |
-        //  |    TAB    |  Q    |  W    |  E    |  R    |  T    |  Y    |  U    |  I    |  O    |  P    |   [   |   ]   |   "|\"    |       |DELETE |  END  |PAGE_DW|       | KP_N7 | KP_N8 | KP_N9 | KP +  |
+        //  |    TAB    |  Q    |  W    |  E    |  R    |  T    |  Y    |  U    |  I    |  O    |  P    |   [   |   ]   |    \      |       |DELETE |  END  |PAGE_DW|       | KP_N7 | KP_N8 | KP_N9 | KP +  |
         //  | CAPS        |   A   |   S   |   D   |   F   |   G   |   H   |   J   |   K   |   L   |   ;   |   '   |      ENTER      |                                       | KP_N4 | KP_N5 | KP_N6 |(KP +) |
         //  |   LSHIFT        |   Z   |   X   |   C   |   V   |   B   |   N   |   M   |   ,   |   .   |   /   |        RSHIFT       |               |  UP   |               | KP_N1 | KP_N2 | KP_N3 | KPENT |
         //  |   CTRL    |       |    ALT    |                        SPACE                          |   ALTGR   |       |   CTRL    |       | LEFT  | DOWN  | RIGHT |       |     KP_N0     | KP .  |(KPENT)|
@@ -142,7 +144,7 @@
         //  |  `    |  1    |  2    |  3    |  4    |  5    |  6    |  7    |  8    |  9    |  0    |  -    |  =    |   BKSP        |       |INSERT | HOME  |PAGE_UP|       |BL_NUM | KP /  | KP *  | KP -  |
             RC(5,2) RC(4,2) RC(4,3) RC(4,4) RC(4,5) RC(5,5) RC(5,7) RC(4,7) RC(4,8) RC(4,9) RC(4,10) RC(5,10) RC(5,8)   RC(6,6)            RC(5,12) RC(5,14) RC(5,13)      RC(1,11) RC(1,12) RC(1,13) RC(0,13) 
 
-        //  |    TAB    |  Q    |  W    |  E    |  R    |  T    |  Y    |  U    |  I    |  O    |  P    |   [   |   ]   |   "|\"    |       |DELETE |  END  |PAGE_DW|       | KP_N7 | KP_N8 | KP_N9 | KP +  |
+        //  |    TAB    |  Q    |  W    |  E    |  R    |  T    |  Y    |  U    |  I    |  O    |  P    |   [   |   ]   |    \      |       |DELETE |  END  |PAGE_DW|       | KP_N7 | KP_N8 | KP_N9 | KP +  |
                RC(6,2)  RC(3,2) RC(3,3) RC(3,4) RC(3,5) RC(6,5) RC(6,7) RC(3,7) RC(3,8) RC(3,9) RC(3,10) RC(6,10) RC(6,8) RC(2,6)          RC(5,11) RC(4,14) RC(4,13)      RC(3,11) RC(3,12) RC(3,13) RC(3,14) 
 
         //  | CAPS        |   A   |   S   |   D   |   F   |   G   |   H   |   J   |   K   |   L   |   ;   |   '   |      ENTER      |                                       | KP_N4 | KP_N5 | KP_N6 |(KP +) |

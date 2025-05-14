@@ -102,6 +102,8 @@
             , <&key_physical_attrs 100 100  1600   600     0     0     0>
             , <&key_physical_attrs 100 100  1700   600     0     0     0>
             , <&key_physical_attrs 100 100  1800   600     0     0     0>
+
+            , <&key_physical_attrs 100 100  0      700     0     0     0>
         ;
     };
     
@@ -109,7 +111,7 @@
     iso85_matrix_transform: iso85_matrix_transform {
         compatible = "zmk,matrix-transform";
         rows = <8>;
-        columns = <16>;
+        columns = <17>;
         
         //  -------------------------------------------------------------------------------------------------------------------------
         //  | ESC   |       | F1    | F2    | F3    | F4    |   | F5    | F6    | F7    | F8    |   | F9    | F10   | F11   | F12   |       |PRT SCR| SLCK  |PAU_BRK|
@@ -139,6 +141,7 @@
         //  |   CTRL    |       |    ALT    |                        SPACE                          |   ALTGR   |       |   CTRL    |       | LEFT  | DOWN  | RIGHT |
             RC(5,0)                RC(7,15)                         RC(0,6)                            RC(0,15)            RC(1,0)         RC(0,14) RC(0,11) RC(0,12)
         //  -------------------------------------------------------------------------------------------------------------------------
+            RC(0,16)
         >;
     };
     

@@ -23,7 +23,7 @@
         zephyr,console = &cdc_acm_uart;
         zmk,studio-rpc-uart = &studio_rpc_uart;
         zmk,battery = &vbatt;
-        zmk,physical-layout = &ansi101_ph_layout;
+        zmk,physical-layout = &iso102_ph_layout;
     };
 
     // Combine matrix and direct GPIO to integrate DFU button neat the USB connector
@@ -85,6 +85,10 @@
         input-gpios
             = <&gpio1 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // DFU
             ;
+        /*
+         * A direct pin defined in the input-gpios property is considered a column
+         * when used in a matrix transform; e.g. the 5th pin on the list can be referred to using RC(0,4).
+         */
     };
 
     vbatt: vbatt {

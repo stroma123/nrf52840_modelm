@@ -101,6 +101,8 @@
             , <&key_physical_attrs 100 100  1600   600     0     0     0>
             , <&key_physical_attrs 100 100  1700   600     0     0     0>
             , <&key_physical_attrs 100 100  1800   600     0     0     0>
+
+            , <&key_physical_attrs 100 100  0      700     0     0     0>
         ;
     };
     
@@ -108,12 +110,12 @@
     ansi84_matrix_transform: ansi84_matrix_transform {
         compatible = "zmk,matrix-transform";
         rows = <8>;
-        columns = <16>;
+        columns = <17>;
         
         //  -------------------------------------------------------------------------------------------------------------------------
         //  | ESC   |       | F1    | F2    | F3    | F4    |   | F5    | F6    | F7    | F8    |   | F9    | F10   | F11   | F12   |       |PRT SCR| SLCK  |PAU_BRK|
         //  |  `    |  1    |  2    |  3    |  4    |  5    |  6    |  7    |  8    |  9    |  0    |  -    |  =    |   BKSP        |       |INSERT | HOME  |PAGE_UP|
-        //  |    TAB    |  Q    |  W    |  E    |  R    |  T    |  Y    |  U    |  I    |  O    |  P    |   [   |   ]   |   "|\"    |       |DELETE |  END  |PAGE_DW|
+        //  |    TAB    |  Q    |  W    |  E    |  R    |  T    |  Y    |  U    |  I    |  O    |  P    |   [   |   ]   |    \      |       |DELETE |  END  |PAGE_DW|
         //  | CAPS        |   A   |   S   |   D   |   F   |   G   |   H   |   J   |   K   |   L   |   ;   |   '   |      ENTER      |                                
         //  |   LSHIFT        |   Z   |   X   |   C   |   V   |   B   |   N   |   M   |   ,   |   .   |   /   |        RSHIFT       |               |  UP   |        
         //  |   CTRL    |       |    ALT    |                        SPACE                          |   ALTGR   |       |   CTRL    |       | LEFT  | DOWN  | RIGHT |
@@ -126,7 +128,7 @@
         //  |  `    |  1    |  2    |  3    |  4    |  5    |  6    |  7    |  8    |  9    |  0    |  -    |  =    |   BKSP        |       |INSERT | HOME  |PAGE_UP|
             RC(5,2) RC(4,2) RC(4,3) RC(4,4) RC(4,5) RC(5,5) RC(5,7) RC(4,7) RC(4,8) RC(4,9) RC(4,10) RC(5,10) RC(5,8)   RC(6,6)            RC(5,12) RC(5,14) RC(5,13)
 
-        //  |    TAB    |  Q    |  W    |  E    |  R    |  T    |  Y    |  U    |  I    |  O    |  P    |   [   |   ]   |   "|\"    |       |DELETE |  END  |PAGE_DW|
+        //  |    TAB    |  Q    |  W    |  E    |  R    |  T    |  Y    |  U    |  I    |  O    |  P    |   [   |   ]   |    \      |       |DELETE |  END  |PAGE_DW|
                RC(6,2)  RC(3,2) RC(3,3) RC(3,4) RC(3,5) RC(6,5) RC(6,7) RC(3,7) RC(3,8) RC(3,9) RC(3,10) RC(6,10) RC(6,8) RC(2,6)          RC(5,11) RC(4,14) RC(4,13)
 
         //  | CAPS        |   A   |   S   |   D   |   F   |   G   |   H   |   J   |   K   |   L   |   ;   |   '   |      ENTER      |                                
@@ -138,6 +140,7 @@
         //  |   CTRL    |       |    ALT    |                        SPACE                          |   ALTGR   |       |   CTRL    |       | LEFT  | DOWN  | RIGHT |
             RC(5,0)                RC(7,15)                         RC(0,6)                            RC(0,15)            RC(1,0)         RC(0,14) RC(0,11) RC(0,12)
         //  -------------------------------------------------------------------------------------------------------------------------
+            RC(0,16)
         >;
     };
     
