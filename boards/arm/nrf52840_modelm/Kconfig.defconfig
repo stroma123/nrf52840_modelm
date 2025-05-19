@@ -38,6 +38,10 @@ config LED_LOCK_STATUS
     bool "Enable LED lock indicators, such as Caps lock, Num Lock ..."
     default n
 
+config PWMLED_LOCK_STATUS
+    bool "Enable PWM LED lock indicators, such as Caps lock, Num Lock ..."
+    default n
+
 config LED_INDICATOR_STATUS
     bool "Enable LED status indicator"
     default n
