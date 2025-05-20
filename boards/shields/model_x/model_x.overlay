@@ -227,9 +227,9 @@ zephyr_udc0: &usbd {
 / {
 
     aliases {
-		pwm-led-numlock = &pwm_led0;
-        pwm-led-capslock = &pwm_led1;
-        pwm-led-scrolllock = &pwm_led2;
+        pwm-led-numlock = &pwm_led0;
+        pwm-led-capslock = &pwm_led2;
+        pwm-led-scrolllock = &pwm_led1;
     };
 
 	pwmleds {
