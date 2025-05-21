@@ -1,21 +1,64 @@
 #include <dt-bindings/zmk/matrix_transform.h>
 #include <dt-bindings/led/led.h>
 #include <physical_layouts.dtsi>
-#include "model_x_ansi101.dtsi"
-#include "model_x_iso102.dtsi"
-#include "model_x_ansi84.dtsi"
-#include "model_x_iso85.dtsi"
-#include "model_x_posmap.dtsi"
+
+#include "config.dtsi"
+#ifdef DFU_IN_KEYMAP
+#include "../../common/modelm_posmap_103.dtsi"
+#define UNIFIED_KSCAN kscan_composite
+#else
+#include "../../common/modelm_posmap_102.dtsi"
+#define UNIFIED_KSCAN kscan_matrix
+#endif
+#include "../../common/layouts/modelm_ansi101.dtsi"
+#include "../../common/layouts/modelm_iso102.dtsi"
+#include "../../common/layouts/modelm_ansi84.dtsi"
+#include "../../common/layouts/modelm_iso85.dtsi"
 
 
 / {
     chosen {
         zmk,studio-rpc-uart = &studio_rpc_uart;
         zephyr,console = &cdc_acm_uart;
-        zmk,physical-layout = &ansi101_ph_layout;
+        zmk,physical-layout = &iso102_ph_layout;
     };
-    
-    unified_kscan: unified_kscan {
+
+// Include DFU button if needed
+#ifdef DFU_IN_KEYMAP
+    // Combine matrix and direct GPIO to integrate DFU button neat the USB connector
+    kscan_composite: kscan_composite {
+        compatible = "zmk,kscan-composite";
+        columns = <17>;
+        rows = <8>;
+        wakeup-source;
+
+        // Include the matrix driver
+        matrix {
+            kscan = <&kscan_matrix>;
+        };
+
+        // Include the direct GPIO driver...
+        direct {
+            kscan = <&kscan_direct>;
+            col-offset = <16>;
+        };
+    };
+
+    kscan_direct: kscan_direct {
+        compatible = "zmk,kscan-gpio-direct";
+        // DFU button is on P0.31 GPIO-direct pin active-low, pull high
+        input-gpios
+            = <&gpio0 31 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // DFU
+            ;
+        /*
+         * A direct pin defined in the input-gpios property is considered a column
+         * when used in a matrix transform; e.g. the 5th pin on the list can be referred to using RC(0,4).
+         */
+    };
+
+#endif    
+
+    kscan_matrix: kscan_matrix {
         compatible = "zmk,kscan-gpio-matrix";
         wakeup-source;
         diode-direction = "col2row";
@@ -225,11 +268,35 @@ zephyr_udc0: &usbd {
 };
 
 / {
+    aliases {
+		led-caps = &led_2;
+		led-num = &led_0;
+        /* Use 'Scroll Lock' LED as BLE/Battery blink indicator instead */
+		//led-scroll = &led_1;
+        led-indicator = &led_1;
+    };
+
+    leds {
+        compatible = "gpio-leds";
+        status = "okay";
+        led_0: led_0 {
+            gpios = <&gpio1 1 GPIO_ACTIVE_LOW>;
+        };
+        led_1: led_1 {
+            gpios = <&gpio1 4 GPIO_ACTIVE_LOW>;
+        };
+        led_2: led_2 {
+            gpios = <&gpio1 6 GPIO_ACTIVE_LOW>;
+        };
+    };
+};
+
+/ {
 
     aliases {
         pwm-led-numlock = &pwm_led0;
         pwm-led-capslock = &pwm_led2;
-        pwm-led-scrolllock = &pwm_led1;
+        //pwm-led-scrolllock = &pwm_led1;
     };
 
 	pwmleds {

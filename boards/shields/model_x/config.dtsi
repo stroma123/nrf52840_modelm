@@ -1,0 +1,11 @@
+/*
+ * Include this file to project .dts/.overlay/.keymap to be able to configure devicetree
+ * according to macros below, for example:
+ *   #include "config.dtsi"
+ */
+
+/* 
+ * Undefine use DFU button as last button in the keymap, so it will be available in ZMK Studio.
+ * Note, on default assembly variant DFU is connected to RESET pin via 0R resistor.
+ */
+//#define DFU_IN_KEYMAP 

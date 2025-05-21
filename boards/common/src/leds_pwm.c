@@ -9,20 +9,44 @@
 
 LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 
-#define LED_GPIO_NODE_ID DT_COMPAT_GET_ANY_STATUS_OKAY(gpio_leds)
+// Only use LEDs with aliases in the DT
+
+#if DT_NODE_EXISTS(DT_ALIAS(pwm_led_numlock))
+#define HAS_PWMLED_NUM_LOCK
+#endif
+#if DT_NODE_EXISTS(DT_ALIAS(pwm_led_capslock))
+#define HAS_PWMLED_CAPS_LOCK
+#endif
+#if DT_NODE_EXISTS(DT_ALIAS(pwm_led_scrolllock))
+#define HAS_PWMLED_SCROLL_LOCK
+#endif
+
+//#define LED_GPIO_NODE_ID DT_COMPAT_GET_ANY_STATUS_OKAY(gpio_leds)
 
 // PWM configuration for Num Lock, Caps Lock, and Scroll Lock LEDs
+#ifdef HAS_PWMLED_NUM_LOCK
 static const struct pwm_dt_spec pwm_led_numlock = PWM_DT_SPEC_GET(DT_ALIAS(pwm_led_numlock));
+#endif
+#ifdef HAS_PWMLED_CAPS_LOCK
 static const struct pwm_dt_spec pwm_led_capslock = PWM_DT_SPEC_GET(DT_ALIAS(pwm_led_capslock));
+#endif
+#ifdef HAS_PWMLED_SCROLL_LOCK
 static const struct pwm_dt_spec pwm_led_scrolllock = PWM_DT_SPEC_GET(DT_ALIAS(pwm_led_scrolllock));
+#endif
 
 #define PWM_PERIOD_NS  20000000 // 20ms period (50Hz)
 #define IDLE_BRIGHTNESS_PERCENT 25
 
 // Global variables to store the current brightness for each LED
+#ifdef HAS_PWMLED_NUM_LOCK
 static uint8_t current_brightness_numlock = 0;
+#endif
+#ifdef HAS_PWMLED_CAPS_LOCK
 static uint8_t current_brightness_capslock = 0;
+#endif
+#ifdef HAS_PWMLED_SCROLL_LOCK
 static uint8_t current_brightness_scrolllock = 0;
+#endif
 
 // Work structure for handling asynchronous LED updates
 static struct k_work led_update_work;
@@ -53,9 +77,15 @@ static int direct_pwm_set(const struct pwm_dt_spec *pwm_spec, uint8_t brightness
 
 // Function to update the LED brightness asynchronously
 static void led_update_work_handler(struct k_work *work) {
+#ifdef HAS_PWMLED_NUM_LOCK
     direct_pwm_set(&pwm_led_numlock, current_brightness_numlock, &current_brightness_numlock);
+#endif
+#ifdef HAS_PWMLED_CAPS_LOCK
     direct_pwm_set(&pwm_led_capslock, current_brightness_capslock, &current_brightness_capslock);
+#endif
+#ifdef HAS_PWMLED_SCROLL_LOCK
     direct_pwm_set(&pwm_led_scrolllock, current_brightness_scrolllock, &current_brightness_scrolllock);
+#endif
 }
 
 // Function called when the keyboard enters idle
@@ -63,9 +93,15 @@ static void on_idle(void) {
     printk("Keyboard is idle. Dimming LED brightness to %d%%.\n", IDLE_BRIGHTNESS_PERCENT);
 
     // Adjust brightness for idle state
+#ifdef HAS_PWMLED_NUM_LOCK
     current_brightness_numlock = (current_brightness_numlock * IDLE_BRIGHTNESS_PERCENT) / 100;
+#endif
+#ifdef HAS_PWMLED_CAPS_LOCK
     current_brightness_capslock = (current_brightness_capslock * IDLE_BRIGHTNESS_PERCENT) / 100;
+#endif
+#ifdef HAS_PWMLED_SCROLL_LOCK
     current_brightness_scrolllock = (current_brightness_scrolllock * IDLE_BRIGHTNESS_PERCENT) / 100;
+#endif
 
     // Schedule the LED update asynchronously
     k_timer_start(&led_update_timer, K_MSEC(100), K_NO_WAIT); // Delay of 100ms before applying the dimming
@@ -78,9 +114,15 @@ static void on_wake_up(void) {
     // Restore the original brightness of the LEDs based on the lock indicators
     zmk_hid_indicators_t flags = zmk_hid_indicators_get_current_profile();
 
+#ifdef HAS_PWMLED_NUM_LOCK
     current_brightness_numlock = (flags & 0x01) ? 100 : 0;
+#endif
+#ifdef HAS_PWMLED_CAPS_LOCK
     current_brightness_capslock = (flags & 0x02) ? 100 : 0;
+#endif
+#ifdef HAS_PWMLED_SCROLL_LOCK
     current_brightness_scrolllock = (flags & 0x04) ? 100 : 0;
+#endif
 
     // Schedule the LED update asynchronously
     k_timer_start(&led_update_timer, K_MSEC(100), K_NO_WAIT); // Delay of 100ms before restoring the brightness
@@ -117,16 +159,28 @@ static int led_locks_listener_cb(const zmk_event_t *eh) {
     zmk_hid_indicators_t flags = zmk_hid_indicators_get_current_profile();
 
     // Define brightness levels for Num Lock, Caps Lock, and Scroll Lock
+#ifdef HAS_PWMLED_NUM_LOCK
     current_brightness_numlock = (flags & 0x01) ? 100 : 0;
+#endif
+#ifdef HAS_PWMLED_CAPS_LOCK
     current_brightness_capslock = (flags & 0x02) ? 100 : 0;
+#endif
+#ifdef HAS_PWMLED_SCROLL_LOCK
     current_brightness_scrolllock = (flags & 0x04) ? 100 : 0;
+#endif
 
     // Schedule the LED update asynchronously
     k_timer_start(&led_update_timer, K_MSEC(100), K_NO_WAIT);
 
+#ifdef HAS_PWMLED_NUM_LOCK
     LOG_INF("NUMLOCK is %d", current_brightness_numlock > 0);
+#endif
+#ifdef HAS_PWMLED_CAPS_LOCK
     LOG_INF("CAPSLOCK is %d", current_brightness_capslock > 0);
+#endif
+#ifdef HAS_PWMLED_SCROLL_LOCK
     LOG_INF("SCROLLLOCK is %d", current_brightness_scrolllock > 0);
+#endif
 
     return 0;
 }
@@ -136,20 +190,27 @@ ZMK_SUBSCRIPTION(led_indicators_listener, zmk_hid_indicators_changed);
 
 // Initialize the LEDs and work structures on boot
 static int leds_init(void) {
+
+#ifdef HAS_PWMLED_NUM_LOCK
     if (!pwm_is_ready_dt(&pwm_led_numlock)) {
         LOG_ERR("Error: PWM device %s is not ready\n", pwm_led_numlock.dev->name);
         return -ENODEV;
     }
+#endif
     
+#ifdef HAS_PWMLED_CAPS_LOCK
     if (!pwm_is_ready_dt(&pwm_led_capslock)) {
         LOG_ERR("Error: PWM device %s is not ready\n", pwm_led_capslock.dev->name);
         return -ENODEV;
     }
+#endif
 
+#ifdef HAS_PWMLED_SCROLL_LOCK
     if (!pwm_is_ready_dt(&pwm_led_scrolllock)) {
         LOG_ERR("Error: PWM device %s is not ready\n", pwm_led_scrolllock.dev->name);
         return -ENODEV;
     }
+#endif
 
     // Initialize k_work and k_timer
     k_work_init(&led_update_work, led_update_work_handler);
