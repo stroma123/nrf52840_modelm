@@ -55,13 +55,13 @@ This is **not** Docker Desktop/VS Code approach described in ZMK [Getting Starte
             --volume ".:/boards" \
             --user="$(id -u):$(id -g)" \
             zmkfirmware/zmk-dev-arm:3.5 \
-            west build /zmk/app --pristine --board "nrf52840_modelm" \
+            west build /zmk/app --pristine --board "modelm" \
             -- -DZMK_CONFIG="/zmk-config" \
             -DZMK_EXTRA_MODULES="/boards" 
 
 * Copy the firmware file and remove the container:
 
-        docker cp zmk-modelm:/zmk/build/zephyr/zmk.uf2 ./nrf52840_modelm.uf2
+        docker cp zmk-modelm:/zmk/build/zephyr/zmk.uf2 ./modelm.uf2
         docker container rm zmk-modelm
 
 For convenience, while developing/testing, you may leave the container running.
@@ -78,11 +78,11 @@ For convenience, while developing/testing, you may leave the container running.
 * Now the container is detached but is still running, build the firmware with `docker exec` command.
 
         docker exec --interactive --tty zmk-modelm \
-            west build /zmk/app --pristine --board "nrf52840_modelm" \
+            west build /zmk/app --pristine --board "modelm" \
             -- -DZMK_CONFIG="/zmk-config" \
             -DZMK_EXTRA_MODULES="/boards"
         
-        docker cp zmk-modelm:/zmk/build/zephyr/zmk.uf2 ./nrf52840_modelm.uf2
+        docker cp zmk-modelm:/zmk/build/zephyr/zmk.uf2 ./modelm.uf2
 
 * To remove the container, you need to stop it first.
 
@@ -95,7 +95,7 @@ Set the ZMK and Zephyre projects up as described in [Toolchain Setup](https://zm
 Go to the ZMK base directory, then run
 
     cd app
-    west build --board nrf52840_modelm . -- -DZMK_EXTRA_MODULES=(..)/nrf52840_modelm/
+    west build --board modelm . -- -DZMK_EXTRA_MODULES=(..)/modelm/
 
 Replace `(..)` with the path of this project. Note, that the tilde (`~`) is not evaluated correctly in that pathname.
 

@@ -1,4 +1,4 @@
-# nrf52840_modelm
+# modelm
 
 Driver board for the IBM Model M mechanical keyboard, based on the nrf52840.
 
@@ -12,12 +12,12 @@ Driver board for the IBM Model M mechanical keyboard, based on the nrf52840.
         --volume ".:/boards" \
         --user="$(id -u):$(id -g)" \
         zmkfirmware/zmk-dev-arm:3.5 \
-        west build /zmk/app --pristine --board "nrf52840_modelm" \
+        west build /zmk/app --pristine --board "modelm" \
         -- -DSHIELD=settings_reset -DZMK_CONFIG="/zmk-config" \
         -DZMK_EXTRA_MODULES="/boards" 
 
 ### Locally using native installation
 
 ```
-west build --board nrf52840_modelm app
+west build --board modelm app
 ```

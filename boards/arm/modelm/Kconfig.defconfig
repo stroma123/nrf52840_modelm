@@ -4,7 +4,7 @@
 if BOARD_IBM_MODELM
 
 config BOARD
-	default "nrf52840_modelm"
+	default "modelm"
 
 config ZMK_KEYBOARD_NAME
     default "IBM Model M"

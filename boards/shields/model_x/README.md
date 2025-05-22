@@ -18,6 +18,6 @@ Heavily inspired from [NilsFC/Model-X](https://github.com/NilsFC/Model-X)
 ### Locally using native installation
 
 ```
-west build --board nrf52840_modelm -- -DSHIELD=model_x app
+west build --board nice_nano_v2 -- -DSHIELD=model_x app
 ```
 
