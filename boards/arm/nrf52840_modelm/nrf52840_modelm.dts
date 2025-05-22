@@ -6,11 +6,20 @@
 /dts-v1/;
 #include <nordic/nrf52840_qiaa.dtsi>
 #include <dt-bindings/zmk/matrix_transform.h>
-#include "nrf52840_ansi101.dtsi"
-#include "nrf52840_iso102.dtsi"
-#include "nrf52840_ansi84.dtsi"
-#include "nrf52840_iso85.dtsi"
-#include "nrf52840_posmap.dtsi"
+
+#include "config.dtsi"
+#ifdef DFU_IN_KEYMAP
+#include "../../common/modelm_posmap_103.dtsi"
+#define UNIFIED_KSCAN kscan_composite
+#else
+#include "../../common/modelm_posmap_102.dtsi"
+#define UNIFIED_KSCAN kscan_matrix
+#endif
+#include "../../common/layouts/modelm_ansi101.dtsi"
+#include "../../common/layouts/modelm_iso102.dtsi"
+#include "../../common/layouts/modelm_ansi84.dtsi"
+#include "../../common/layouts/modelm_iso85.dtsi"
+
 
 / {
     model = "IBM MODEL M";
@@ -20,14 +29,16 @@
         zephyr,code-partition = &code_partition;
         zephyr,sram = &sram0;
         zephyr,flash = &flash0;
-        zephyr,console = &cdc_acm_uart;
         zmk,studio-rpc-uart = &studio_rpc_uart;
+        zephyr,console = &cdc_acm_uart;
         zmk,battery = &vbatt;
         zmk,physical-layout = &iso102_ph_layout;
     };
 
+// Include DFU button if needed
+#ifdef DFU_IN_KEYMAP
     // Combine matrix and direct GPIO to integrate DFU button neat the USB connector
-    unified_kscan: kscan_composite {
+    kscan_composite: kscan_composite {
         compatible = "zmk,kscan-composite";
         columns = <17>;
         rows = <8>;
@@ -35,20 +46,35 @@
 
         // Include the matrix driver
         matrix {
-            kscan = <&kscan1>;
+            kscan = <&kscan_matrix>;
         };
 
         // Include the direct GPIO driver...
         direct {
-            kscan = <&kscan2>;
+            kscan = <&kscan_direct>;
             col-offset = <16>;
         };
     };
 
-    kscan1: kscan_matrix {
+    kscan_direct: kscan_direct {
+        compatible = "zmk,kscan-gpio-direct";
+        // DFU button is on P1.01 GPIO-direct pin active-low, pull high
+        input-gpios
+            = <&gpio1 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // DFU
+            ;
+        /*
+         * A direct pin defined in the input-gpios property is considered a column
+         * when used in a matrix transform; e.g. the 5th pin on the list can be referred to using RC(0,4).
+         */
+    };
+
+#endif 
+
+    kscan_matrix: kscan_matrix {
         compatible = "zmk,kscan-gpio-matrix";
-        diode-direction = "row2col";
         wakeup-source;
+        diode-direction = "row2col";
+
         row-gpios
             = <&gpio1 11 (GPIO_OPEN_SOURCE)> // R0
             , <&gpio0 16 (GPIO_OPEN_SOURCE)> // R1
@@ -59,6 +85,7 @@
             , <&gpio0 19 (GPIO_OPEN_SOURCE)> // R6
             , <&gpio0 21 (GPIO_OPEN_SOURCE)> // R7
             ;
+
         col-gpios
             = <&gpio1 6  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // C0
             , <&gpio1 4  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)> // C1
@@ -79,25 +106,13 @@
             ;
     };
 
-    kscan2: kscan_direct {
-        compatible = "zmk,kscan-gpio-direct";
-        // DFU button is on P1.01 GPIO-direct pin active-low, pull high
-        input-gpios
-            = <&gpio1 1 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)> // DFU
-            ;
-        /*
-         * A direct pin defined in the input-gpios property is considered a column
-         * when used in a matrix transform; e.g. the 5th pin on the list can be referred to using RC(0,4).
-         */
-    };
-
     vbatt: vbatt {
         //compatible = "zmk,battery-nrf-vddh";
         compatible = "zmk,battery-voltage-divider";
         io-channels = <&adc 2>;
+        power-gpios = <&gpio1 3 GPIO_ACTIVE_HIGH>;
         output-ohms = <2150000>;
         full-ohms = <(2150000 + 806000)>;
-        power-gpios = <&gpio1 3 GPIO_ACTIVE_HIGH>;
     };
 
     aliases {
@@ -187,6 +202,16 @@
 
 };
 
+zephyr_udc0: &usbd {
+    status = "okay";
+    studio_rpc_uart: studio_rpc_uart {
+        compatible = "zephyr,cdc-acm-uart";
+    };
+    cdc_acm_uart: cdc_acm_uart {
+        compatible = "zephyr,cdc-acm-uart";
+    };
+};
+
 &pwm0 {
     status = "okay";
     pinctrl-0 = <&pwm0_default>;
@@ -224,15 +249,6 @@
     status = "okay";
 };
 
-zephyr_udc0: &usbd {
-    status = "okay";
-    studio_rpc_uart: studio_rpc_uart {
-        compatible = "zephyr,cdc-acm-uart";
-    };
-    cdc_acm_uart: cdc_acm_uart {
-        compatible = "zephyr,cdc-acm-uart";
-    };
-};
 
 /* CONFIG_GPIO_AS_PINRESET is deprecated use this instead */
 &uicr {
