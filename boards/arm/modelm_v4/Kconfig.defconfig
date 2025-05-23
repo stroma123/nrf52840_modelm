@@ -1,0 +1,70 @@
+# Copyright (c) 2023 The ZMK Contributers
+# SPDX-Licencse-Identifier: MIT
+
+if BOARD_IBM_MODELM
+
+config BOARD
+	default "modelm_v4"
+
+config ZMK_KEYBOARD_NAME
+    default "IBM Model M4"
+
+if USB_DEVICE_STACK
+
+config USB_NRFX
+    default y
+
+endif # USB_DEVICE_STACK
+
+config BT_CTLR
+    default BT
+
+config ZMK_BLE
+    default y
+
+config ZMK_USB
+    default y
+
+config ZMK_RTT_LOGGING
+    default n
+
+config LOG_BACKEND_SHOW_COLOR
+    default n
+
+config LED
+    default y
+
+config LED_LOCK_STATUS
+    bool "Enable LED lock indicators, such as Caps lock, Num Lock ..."
+    default n
+
+config PWMLED_LOCK_STATUS
+    bool "Enable PWM LED lock indicators, such as Caps lock, Num Lock ..."
+    default n
+
+config LED_INDICATOR_STATUS
+    bool "Enable LED status indicator"
+    default n
+
+config LED_INDICATOR_BLINK_MS
+    int "Duration of BLE connection status blink in ms"
+    default 300
+
+config LED_INDICATOR_INTERVAL_MS
+    int "Minimum wait duration between two blinks in ms"
+    default 150
+
+config LED_INDICATOR_BATTERY_LEVEL_CRITICAL
+    int "Critical battery level percentage"
+    default 5
+
+config USE_DT_CODE_PARTITION
+    default y
+
+#config ZMK_KSCAN_MATRIX_WAIT_BETWEEN_OUTPUTS
+#    default 0
+
+#config ZMK_KSCAN_MATRIX_WAIT_BEFORE_INPUTS
+#    default 5
+
+endif # BOARD_IBM_MODELM
