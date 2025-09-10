@@ -19,10 +19,32 @@
 ---
 include:
   - board: modelm
-    snippet: studio-rpc-usb-uart
+    snippets:
+      - studio-rpc-usb-uart
     cmake-args: -DCONFIG_ZMK_STUDIO=y
+    artifact-name: modelm
+  - board: modelm
+    snippets:
+      - studio-rpc-usb-uart
+      - zmk-usb-logging
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_USB_LOGGING=y
+    artifact-name: modelm_logging
+  - board: modelm
+    shield: settings_reset
+    artifact-name: modelm_reset
+  - board: nice_nano_v2
+    shield: model_x
+    snippets:
+      - studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
+    artifact-name: model_x_logging
   - board: nice_nano_v2
     shield: model_x
     snippets:
       - studio-rpc-usb-uart
       - zmk-usb-logging
+    cmake-args: -DCONFIG_ZMK_STUDIO=y -DCONFIG_ZMK_USB_LOGGING=y
+    artifact-name: model_x_logging
+  - board: nice_nano_v2
+    shield: settings_reset
+    artifact-name: model_x_reset
