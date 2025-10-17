@@ -30,7 +30,7 @@ static int led_capslock_listener_cb(const zmk_event_t *eh) {
 
 #define CAPS_BIT    (1 << (HID_USAGE_LED_CAPS_LOCK - 1))
 #define NUM_BIT     (1 << (HID_USAGE_LED_NUM_LOCK - 1))
-#define SCROLL_BIT  (1 << (HID_USAGE_LED_SCROLL_LOCK - 1)0
+#define SCROLL_BIT  (1 << (HID_USAGE_LED_SCROLL_LOCK - 1)
 
 #ifdef HAS_LED_CAPS_LOCK
     if (flags & CAPS_BIT) {

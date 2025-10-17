@@ -119,7 +119,7 @@
 		led-num = &led_1;
         /* Use led_2 as BLE/Battery blink indicator instead */
 		//led-scroll = &led_2;
-        led-indicator = &led_2;
+        indicator-led = &led_2;
     };
 
     leds {

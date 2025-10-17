@@ -232,7 +232,7 @@ zephyr_udc0: &usbd {
 		led-num = &led_0;
         /* Use 'Scroll Lock' LED as BLE/Battery blink indicator instead */
 		//led-scroll = &led_1;
-        led-indicator = &led_1;
+        indicator-led = &led_1;
     };
 
     leds {
