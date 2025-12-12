@@ -5,10 +5,10 @@ config BOARD_ENABLE_DCDC
     bool "Enable DCDC mode"
     select SOC_DCDC_NRF52X
     default y
-    depends on BOARD_IBM_MODELM
+    depends on BOARD_IBM_MODELM_V4
 
 config BOARD_ENABLE_DCDC_HV
     bool "High voltage DCDC converter"
     select SOC_DCDC_NRF52X_HV
     default y
-    depends on BOARD_IBM_MODELM
+    depends on BOARD_IBM_MODELM_V4

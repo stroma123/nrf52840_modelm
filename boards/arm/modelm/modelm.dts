@@ -258,19 +258,29 @@ zephyr_udc0: &usbd {
 &flash0 {
     /*
      * For more information, see:
-     * http://docs.zephyrproject.org/latest/devices/dts/flash_partitions.html
+     * https://docs.zephyrproject.org/latest/services/storage/flash_map/flash_map.html
      */
     partitions {
         compatible = "fixed-partitions";
         #address-cells = <1>;
         #size-cells = <1>;
-
-        sd_partition: partition@0 {
-            reg = <0x00000000 0x00026000>;
+    
+		// Don't move: Adafruit MBR partition
+		// Without SoftDevice, Adafruit bootloader expects the app right after the MBR. With SoftDevice - right after the SoftDevice
+		// References: Adafruit_nRF52_Bootloader/lib/sdk11/components/libraries/bootloader_dfu/bootloader.c:bootloader_app_start
+		//             https://github.com/adafruit/Adafruit_nRF52_Bootloader/pull/128
+        mbr_partition: partition@0 {
+            // MBR starts at 0, max is 4k
+            reg = <0x0 DT_SIZE_K(4)>;
+        };
+        sd_partition: partition@1000 {
+            // SD starts at 4k, max size is 148k
+            reg = <DT_SIZE_K(4) DT_SIZE_K(148)>;
         };
 
         code_partition: partition@26000 {
-            reg = <0x00026000 0x000c6000>;
+            // Code starts at 152k, max size is 792k
+            reg = <DT_SIZE_K(4+148) DT_SIZE_K(792)>;
         };
 
         /*
@@ -281,13 +291,18 @@ zephyr_udc0: &usbd {
         /*
          * Storage partition will be used by FCB/LittleFS/NVS
          * if enabled.
+         * See https://docs.nordicsemi.com/bundle/ncs-latest/page/zephyr/services/storage/nvs/nvs.html#flash_wear
          */
         storage_partition: partition@ec000 {
-            reg = <0x000ec000 0x00008000>;
+            // Storafe starts at 944k, max size is 32k
+            reg = <DT_SIZE_K(4+148+792) DT_SIZE_K(32)>;
         };
 
+		// Address 0xf4000 is hardcoded at https://github.com/adafruit/Adafruit_nRF52_Bootloader/blob/master/linker/nrf52840.ld
+		// last build took 32448 bytes (83.39% full)
         boot_partition: partition@f4000 {
-            reg = <0x000f4000 0x0000c000>;
+            // Bootloader partition starts at 972k, max size is 48k
+            reg = <DT_SIZE_K(4+148+792+32) DT_SIZE_K(48)>;
         };
     };
 };

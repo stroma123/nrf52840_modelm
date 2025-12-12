@@ -1,6 +1,6 @@
 # Copyright (c) 2023 The ZMK Contributers
 # SPDX-Licencse-Identifier: MIT
 
-config BOARD_IBM_MODELM
-    bool "IBM Model M"
+config BOARD_IBM_MODELM_V4
+    bool "IBM Model M4"
     depends on SOC_NRF52840_QIAA

@@ -1,7 +1,7 @@
 # Copyright (c) 2023 The ZMK Contributers
 # SPDX-Licencse-Identifier: MIT
 
-if BOARD_IBM_MODELM
+if BOARD_IBM_MODELM_V4
 
 config BOARD
 	default "modelm_v4"
@@ -137,4 +137,4 @@ config USE_DT_CODE_PARTITION
 #config ZMK_KSCAN_MATRIX_WAIT_BEFORE_INPUTS
 #    default 5
 
-endif # BOARD_IBM_MODELM
+endif # BOARD_IBM_MODELM_V4
