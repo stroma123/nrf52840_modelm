@@ -125,6 +125,7 @@ config ANTIGHOST
     default n
 
 config ANTIGHOST_V2
+    depends on !ANTIGHOST
     bool "Enable advanced anti-ghost support"
     default n
 
