@@ -157,7 +157,7 @@ static void indicate_startup_battery(void) {
     };
 
     blink.duration_ms = CONFIG_INDICATOR_LED_ON_TIME_MS;
-    blink.count = round(battery_level / 10);
+    blink.count = round(battery_level / 10.0);
     blink.sleep_ms = 0;
 
     if (battery_level == 0) {
