@@ -25,6 +25,9 @@
 # zmk
 zmk/
 
+# firmware build artifacts
+*.uf2
+
 # Windows
 Thumbs.db
 Desktop.ini
